@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Rigidbody2D rb;
 
-    // Update is called once per frame
+    private float moveSpeed = 5f;
+    private Vector2 movement;
+    public Vector2 mousePos;
+
+
     void Update()
     {
-        
+        movement.x = Input.GetAxis("Horizontal") * moveSpeed;
+        movement.y = Input.GetAxis("Vertical") * moveSpeed;
+
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+    }
+
+    private void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 }

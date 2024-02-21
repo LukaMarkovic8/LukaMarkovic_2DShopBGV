@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public TextMeshProUGUI PlayerName;
+    public TextMeshProUGUI PlayerBalance;
+
+
+    public void SetPlayerName(string newName)
     {
-        
+        PlayerName.text = newName;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetPlayerBalance(int newBalance)
     {
-        
+        PlayerBalance.text = "$ " + newBalance.ToString();
+
     }
 }
