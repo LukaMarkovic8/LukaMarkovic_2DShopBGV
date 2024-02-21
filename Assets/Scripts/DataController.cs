@@ -18,22 +18,22 @@ public class DataController : MonoBehaviour
 
    public static DataController dataController;
 
-    private GameData playerData;
+    public GameData playerData;
     public class GameData
     {
         public string playerName;
         public int playerBalance;
-        public List<int> itemsOwned;
+        public List<(int,int)> itemsOwned;
         // Add other fields as needed
     }
     private void Awake()
     {
         dataController = this;
+        // Set file path
+        filePath = Path.Combine(Application.persistentDataPath, "gameData.json");
     }
     void Start()
     {
-        // Set the file path 
-        filePath = Path.Combine(Application.persistentDataPath, "gameData.json");
         LoadFromJson();
     }
 
@@ -41,6 +41,7 @@ public class DataController : MonoBehaviour
     public void SetPlayerName(string playerName)
     {
         playerData.playerName = playerName;
+        SaveToJson();
     }
 
     public void SetPlayerBalance(int playerBalance)
@@ -67,9 +68,7 @@ public class DataController : MonoBehaviour
     // Save data to JSON file
     public void SaveToJson()
     {           
-
         playerData.playerBalance = 150 + UnityEngine.Random.RandomRange(1, 522);
-
         string json = JsonUtility.ToJson(playerData);
         File.WriteAllText(filePath, json);
         Debug.Log("Data saved to " + filePath);
