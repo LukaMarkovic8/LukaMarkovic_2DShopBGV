@@ -7,7 +7,6 @@ using UnityEngine.Playables;
 
     public enum ItemType
     {
-
         None,
         Hair,
         Boots
