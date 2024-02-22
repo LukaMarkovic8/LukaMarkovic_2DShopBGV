@@ -6,11 +6,10 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 public class TradeManager : MonoBehaviour
 {
-
+    public UIController UIController;
     public TextMeshProUGUI warningText;
 
     public DisplayItem DisplayItemBuy;
@@ -69,51 +68,56 @@ public class TradeManager : MonoBehaviour
 
     public void CheckIfItemIsAvailableToBuy()
     {
-
         if (DataController.dataController.playerData.itemsOwned.Contains(((int)DisplayItemBuy.item.Type, DisplayItemBuy.item.Id)))
         {
             BuyButtonGo.SetActive(false);
             warningText.gameObject.SetActive(true);
             warningText.text = "Player Alredy Has This Item";
             return;
-
-
         }
         if (DisplayItemBuy.item.Price > DataController.dataController.playerData.playerBalance)
         {
             BuyButtonGo.SetActive(false);
             warningText.gameObject.SetActive(true);
             warningText.text = "Not Enough money";
-
             return;
         }
         warningText.gameObject.SetActive(false);
         BuyButtonGo.SetActive(true);
+    }
 
+    public void CheckIfItemIsAvailableForSale()
+    {
+
+        if (DataController.dataController.playerData.itemsOwned.Contains(((int)DisplayItemBuy.item.Type, DisplayItemBuy.item.Id)))
+        {
+
+
+
+        }
 
     }
 
     public void SellItems()
     {
+        //handeling data
+        DataController.dataController.SetPlayerBalance(DisplayItemBuy.item.Price);
+        DataController.dataController.RemoveOwnedItem(DisplayItemBuy.item);
+
         audioSource.PlayOneShot(SellClip);
+        UIController.SetPlayerBalance();
+
     }
     public void BuyItems()
     {
-       /* if (DisplayItemBuy.item.Price > DataController.dataController.playerData.playerBalance)
-        {
-            Debug.Log("Not Enough money");
-            return;
-        }
-
-        if (DataController.dataController.playerData.itemsEquiped.Contains(((int)DisplayItemBuy.item.Type, DisplayItemBuy.item.Id)) 
-            || DataController.dataController.playerData.itemsOwned.Contains(((int)DisplayItemBuy.item.Type, DisplayItemBuy.item.Id)))
-        {
-            Debug.Log("Player Has This Item");
-
-        }*/
+        //handeling data
         DataController.dataController.AddToOwnedItems(DisplayItemBuy.item);
         DataController.dataController.SetPlayerBalance(-DisplayItemBuy.item.Price);
+
         audioSource.PlayOneShot(BuyAudioClips[UnityEngine.Random.Range(0, BuyAudioClips.Count)]);
+        //UI update
+        UIController.SetPlayerBalance();
+        CheckIfItemIsAvailableToBuy();
 
     }
 
@@ -141,6 +145,11 @@ public class TradeManager : MonoBehaviour
                 BuyDisplayItems[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    private void SetSellItems()
+    {
+
     }
 
 

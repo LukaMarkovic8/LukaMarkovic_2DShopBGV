@@ -69,14 +69,8 @@ public class DataController : MonoBehaviour
     }
 
     public void AddToOwnedItems(Item item)
-    {
-        if (playerData == null)
-        {
-            Debug.Log("sssssssssss");
-        }
-
-
-        Debug.Log(playerData.itemsOwned.Count);
+    {    
+            
 
         if (!playerData.itemsOwned.Contains(((int)item.Type, item.Id)))
         {
@@ -97,7 +91,6 @@ public class DataController : MonoBehaviour
     // Load data from JSON file
     public void LoadFromJson()
     {
-        Debug.Log(filePath);
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);

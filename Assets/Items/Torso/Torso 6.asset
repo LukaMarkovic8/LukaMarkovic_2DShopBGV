@@ -15,5 +15,8 @@ MonoBehaviour:
   Id: 12
   Name: Torso 6
   Type: 3
+  isDouble: 0
   Sprite: {fileID: 21300000, guid: 250530d3e9754ed418009e3d539275b3, type: 3}
-  Price: 160
+  SpriteL: {fileID: 0}
+  SpriteR: {fileID: 0}
+  Price: 1200
