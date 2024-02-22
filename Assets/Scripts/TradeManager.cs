@@ -9,7 +9,7 @@ public class TradeManager : MonoBehaviour
     public AudioSource audioSource;
     public void SellItems()
     {
-
+        audioSource.PlayOneShot(SellClip);
     }
 
     private void BuyItems()

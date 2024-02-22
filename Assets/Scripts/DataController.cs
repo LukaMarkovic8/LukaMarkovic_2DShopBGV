@@ -8,8 +8,15 @@ using UnityEngine.Playables;
     public enum ItemType
     {
         None,
-        Hair,
-        Boots
+        Head,
+        Face,
+        Torso,
+        Shoulders,
+        Hands,
+        Pelvis,
+        Legs,
+        Boots       
+
     }
 public class DataController : MonoBehaviour
 {
