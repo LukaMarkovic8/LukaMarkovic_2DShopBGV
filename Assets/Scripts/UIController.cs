@@ -52,12 +52,16 @@ public class UIController : MonoBehaviour
 
     public void OpenChangeNamePopup()
     {
+        DataController.dataController.blockMoving = true;
+
         PopupHolder.SetActive(true);
         ChangeNameHolder.SetActive(true);
     }
 
     public void OpenTradeMenu()
     {
+        DataController.dataController.blockMoving = true;
+
         ChangeNameHolder.SetActive(false);
         PopupHolder.SetActive(true);
         TradeHolder.SetActive(true);
@@ -67,6 +71,7 @@ public class UIController : MonoBehaviour
     public void CloseUI()
     {
         PopupHolder.SetActive(false);
+        DataController.dataController.blockMoving = false;
 
     }
 

@@ -25,6 +25,7 @@ public class DataController : MonoBehaviour
     public static DataController dataController;
 
     public GameData playerData;
+    public bool blockMoving;
     public class GameData
     {
         public string playerName;

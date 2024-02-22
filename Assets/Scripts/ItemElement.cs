@@ -7,7 +7,7 @@ using TMPro;
 public class ItemElement : MonoBehaviour
 {
     public Item item;
-    public SpriteRenderer Image;
+    public Image Image;
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI PriceText;
 

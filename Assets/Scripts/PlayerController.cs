@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (DataController.dataController.blockMoving) return;
+
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         moveDirection = GetMoveDirection(movement);
         if (IsMoving())
