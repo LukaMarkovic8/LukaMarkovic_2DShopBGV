@@ -17,6 +17,11 @@ public class DisplayItem : MonoBehaviour
 
     private void OnEnable()
     {
+        SetEmpty();
+    }
+
+    public void SetEmpty()
+    {
         Image.sprite = emptyItem.Sprite;
         NameText.text = emptyItem.Name;
         PriceText.text = emptyItem.Price.ToString();
@@ -28,8 +33,15 @@ public class DisplayItem : MonoBehaviour
         this.item = item;
         Image.sprite = item.Sprite;
         NameText.text = item.Name;
-        PriceText.text = "$"+item.Price.ToString();
-        TradeManager.CheckIfItemIsAvailableToBuy();
+        PriceText.text = "$" + item.Price.ToString();
+        if (TradeManager.currentScreen == TradeManager.TradeScreenType.Buy)
+        {
+            TradeManager.CheckIfItemIsAvailableToBuy();
+        }
+        else
+        {
+            TradeManager.CheckIfItemIsAvailableForSale();
+        }
 
     }
 

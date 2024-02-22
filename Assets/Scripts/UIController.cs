@@ -21,7 +21,6 @@ public class UIController : MonoBehaviour
     [Header("Trade screen")]
     public GameObject TradeHolder;
     public GameObject BuyHolder;
-    public GameObject SellHolder;
 
     public Button OpenSellMenu;
     public Button OpenBuyMenu;
@@ -73,21 +72,10 @@ public class UIController : MonoBehaviour
         PopupHolder.SetActive(true);
         TradeHolder.SetActive(true);
         BuyHolder.SetActive(true);
-        SellHolder.SetActive(false);
 
     }
 
-    public void OpenSellTab()
-    {
-        BuyHolder.SetActive(false);
-        SellHolder.SetActive(true);
-    }
-    public void OpenBuyTab()
-    {
-        BuyHolder.SetActive(true);
-        SellHolder.SetActive(false);
 
-    }
 
     public void CloseUI()
     {

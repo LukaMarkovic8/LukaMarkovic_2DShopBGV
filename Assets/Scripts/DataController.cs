@@ -42,7 +42,7 @@ public class DataController : MonoBehaviour
         filePath = Path.Combine(Application.persistentDataPath, "gameData.json");
         LoadFromJson();
     }
- 
+
     public void SetPlayerName(string playerName)
     {
         playerData.playerName = playerName;
@@ -55,6 +55,23 @@ public class DataController : MonoBehaviour
         SaveToJson();
     }
 
+    public List<int> GetItemsForSaleByCategory(ItemType type)
+    {
+        List<int> itemIds = new List<int>();
+
+        foreach (var item in playerData.itemsOwned)
+        {
+            if (item.Item1 == (int)type)
+            {
+
+                if (!playerData.itemsEquipped.Contains(item))
+                {
+                    itemIds.Add(item.Item2);
+                }
+            }
+        }
+        return itemIds;
+    }
 
     public void UpdateEquipedItems(Item item)
     {
@@ -69,8 +86,8 @@ public class DataController : MonoBehaviour
     }
 
     public void AddToOwnedItems(Item item)
-    {    
-            
+    {
+
 
         if (!playerData.itemsOwned.Contains(((int)item.Type, item.Id)))
         {

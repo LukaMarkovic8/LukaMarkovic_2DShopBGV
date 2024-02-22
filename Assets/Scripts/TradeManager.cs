@@ -5,18 +5,46 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class TradeManager : MonoBehaviour
 {
+    public enum TradeScreenType
+    {
+        Buy,
+        Sell
+    }
+
+    public TradeScreenType currentScreen;
     public UIController UIController;
     public TextMeshProUGUI warningText;
 
-    public DisplayItem DisplayItemBuy;
-    public DisplayItem DisplayItemSell;
+    public DisplayItem DisplayItemUI;
     public List<AudioClip> BuyAudioClips;
     public AudioClip SellClip;
     public AudioSource audioSource;
+
+    ItemType itemsCategory;
+
+    [Header("Sell screen")]
+    public GameObject SellButtonGo;
+    public Button OpenBuyScreenButton;
+
+    [Header("BuyScreen")]
+    public GameObject BuyButtonGo;
+    public List<ItemElement> DisplayItems;
+    public Button OpenSellScreenButton;
+
+    [Header("SwichCategoryButtons")]
+    public Button HeadButton;
+    public Button ShouldersButon;
+    public Button ElbowButton;
+    public Button Hand;
+    public Button Torso;
+    public Button Pelvis;
+    public Button Legs;
+    public Button Boots;
+
     [Header("Items")]
     public List<Item> HeadItems;
     public List<Item> ShoulderItems;
@@ -27,55 +55,49 @@ public class TradeManager : MonoBehaviour
     public List<Item> LegItems;
     public List<Item> BootItems;
 
-
-    ItemType itemsCategory;
-
-    [Header("Sell")]
-    public List<ItemElement> SellDisplayItems;
-
-    [Header("SwichCategoryButtons")]
-    public Button SellHeadButton;
-    public Button SellShouldersButon;
-    public Button SellElbowButton;
-    public Button SellHand;
-    public Button SellTorso;
-    public Button SellPelvis;
-    public Button SellLegs;
-    public Button SellBoots;
-
-
-    [Header("Buy")]
-    public GameObject BuyButtonGo;
-    public List<ItemElement> BuyDisplayItems;
-
-    public Button BuyHeadButton;
-    public Button BuyShouldersButon;
-    public Button BuyElbowButton;
-    public Button BuyHand;
-    public Button BuyTorso;
-    public Button BuyPelvis;
-    public Button BuyLegs;
-    public Button BuyBoots;
-
-
-
     private void OnEnable()
     {
-        itemsCategory = ItemType.Torso;
-        SetBuyItems();
+        OpenBuyScreen();
     }
 
+    public void OpenBuyScreen()
+    {
+        itemsCategory = ItemType.Torso;
+        currentScreen = TradeScreenType.Buy;
+        SellButtonGo.SetActive(false);
+        BuyButtonGo.SetActive(true);
+        DisplayItemUI.SetEmpty();
+        OpenSellScreenButton.gameObject.SetActive(true);
+        OpenBuyScreenButton.gameObject.SetActive(false);
+        SetBuyItems();
 
+    }
+    public void OpenSellScreen()
+    {
+        itemsCategory = ItemType.Torso;
+        currentScreen = TradeScreenType.Sell;
+        SellButtonGo.SetActive(true);
+        BuyButtonGo.SetActive(true);
+        DisplayItemUI.SetEmpty();
+        OpenSellScreenButton.gameObject.SetActive(false);
+        OpenBuyScreenButton.gameObject.SetActive(true);
+        SetSellItems();
+
+
+
+    }
     public void CheckIfItemIsAvailableToBuy()
     {
-        if (DataController.dataController.playerData.itemsOwned.Contains(((int)DisplayItemBuy.item.Type, DisplayItemBuy.item.Id)))
+        //checking if we alredy own it
+        if (DataController.dataController.playerData.itemsOwned.Contains(((int)DisplayItemUI.item.Type, DisplayItemUI.item.Id)))
         {
             BuyButtonGo.SetActive(false);
             warningText.gameObject.SetActive(true);
             warningText.text = "Player Alredy Has This Item";
             return;
         }
-        if (DisplayItemBuy.item.Price > DataController.dataController.playerData.playerBalance)
+        //checking if we have cash to buy
+        if (DisplayItemUI.item.Price > DataController.dataController.playerData.playerBalance)
         {
             BuyButtonGo.SetActive(false);
             warningText.gameObject.SetActive(true);
@@ -89,20 +111,21 @@ public class TradeManager : MonoBehaviour
     public void CheckIfItemIsAvailableForSale()
     {
 
-        if (DataController.dataController.playerData.itemsOwned.Contains(((int)DisplayItemBuy.item.Type, DisplayItemBuy.item.Id)))
+        if (DataController.dataController.playerData.itemsEquipped.Contains(((int)DisplayItemUI.item.Type, DisplayItemUI.item.Id)))
         {
-
-
-
+            SellButtonGo.SetActive(false);
+            warningText.gameObject.SetActive(true);
+            warningText.text = "Can't sell an equipped item";
+            return;
         }
-
+        warningText.gameObject.SetActive(false);
     }
 
     public void SellItems()
     {
         //handeling data
-        DataController.dataController.SetPlayerBalance(DisplayItemBuy.item.Price);
-        DataController.dataController.RemoveOwnedItem(DisplayItemBuy.item);
+        DataController.dataController.SetPlayerBalance(DisplayItemUI.item.Price);
+        DataController.dataController.RemoveOwnedItem(DisplayItemUI.item);
 
         audioSource.PlayOneShot(SellClip);
         UIController.SetPlayerBalance();
@@ -111,8 +134,8 @@ public class TradeManager : MonoBehaviour
     public void BuyItems()
     {
         //handeling data
-        DataController.dataController.AddToOwnedItems(DisplayItemBuy.item);
-        DataController.dataController.SetPlayerBalance(-DisplayItemBuy.item.Price);
+        DataController.dataController.AddToOwnedItems(DisplayItemUI.item);
+        DataController.dataController.SetPlayerBalance(-DisplayItemUI.item.Price);
 
         audioSource.PlayOneShot(BuyAudioClips[UnityEngine.Random.Range(0, BuyAudioClips.Count)]);
         //UI update
@@ -132,26 +155,44 @@ public class TradeManager : MonoBehaviour
     {
         List<Item> items = GetCategotyItems();
 
-        for (int i = 0; i < BuyDisplayItems.Count; i++)
+        for (int i = 0; i < DisplayItems.Count; i++)
         {
             //Checking if there are items to display
             if (i < items.Count)
             {
-                BuyDisplayItems[i].gameObject.SetActive(true);
-                BuyDisplayItems[i].SetElement(items[i]);
+                DisplayItems[i].gameObject.SetActive(true);
+                DisplayItems[i].SetElement(items[i]);
             }
             else
             {
-                BuyDisplayItems[i].gameObject.SetActive(false);
+                DisplayItems[i].gameObject.SetActive(false);
             }
         }
     }
 
     private void SetSellItems()
     {
+        List<int> items = DataController.dataController.GetItemsForSaleByCategory(DisplayItemUI.item.Type);
 
+        List<Item> allItems = GetCategotyItems();
+
+
+
+
+        for (int i = 0; i < DisplayItems.Count; i++)
+        {
+            if (items.Contains(allItems[i].Id))
+            {
+                DisplayItems[i].gameObject.SetActive(true);
+                DisplayItems[i].SetElement(allItems[i]);
+
+            }
+            else
+            {
+                DisplayItems[i].gameObject.SetActive(false);
+            }
+        }
     }
-
 
     //Getting the item list for relevant category
     private List<Item> GetCategotyItems()
