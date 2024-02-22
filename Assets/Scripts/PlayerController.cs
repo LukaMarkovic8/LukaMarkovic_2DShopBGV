@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     enum MoveDirection
     {
+        none,
         vertical,
         left,
         right
@@ -18,11 +19,30 @@ public class PlayerController : MonoBehaviour
 
 
     private float moveSpeed = 5f;
-    private Vector2 movement;
+    public Vector2 movement;
     public Vector2 mousePos;
     private bool isMoving;
     public AudioSource walkingAudio;
     private MoveDirection moveDirection;
+
+
+    [Header("SpriteRenderers")]
+    public SpriteRenderer PelvisSprite;
+    public SpriteRenderer HeadSprite;
+    public SpriteRenderer TorsoSprite;
+    public SpriteRenderer LeftShoulderSprite;
+    public SpriteRenderer RightShoulderSprite;
+    public SpriteRenderer LeftElbowSptrie;
+    public SpriteRenderer RightElbowSptrie;
+    public SpriteRenderer RightWristSprite;
+    public SpriteRenderer LeftWristSprite;
+    public SpriteRenderer RightLegSprite;
+    public SpriteRenderer LeftLegSprite;
+    public SpriteRenderer RightBootSprite;
+    public SpriteRenderer LeftBootSprite;
+
+
+
 
     void Update()
     {
@@ -72,12 +92,13 @@ public class PlayerController : MonoBehaviour
 
     MoveDirection GetMoveDirection(Vector2 movement)
     {
-        if (Mathf.Abs(movement.y) > Mathf.Abs(movement.x))
-        {
-            return MoveDirection.vertical;
+        //if (Mathf.Abs(movement.y) > Mathf.Abs(movement.x))
+        //{
+        //    return MoveDirection.vertical;
 
-        }
-        else if (movement.x < 0.01)
+        //}
+        //else
+        if (movement.x < 0f)
         {
             if (playerHolder.transform.localScale.x > 0)
             {
@@ -88,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
             return MoveDirection.left;
         }
-        else
+        else if (movement.x > 0f)
         {
             if (playerHolder.transform.localScale.x < 0)
             {
@@ -97,7 +118,10 @@ public class PlayerController : MonoBehaviour
             return MoveDirection.right;
 
         }
+        return MoveDirection.none;
+
     }
+
 
     bool IsMoving()
     {
