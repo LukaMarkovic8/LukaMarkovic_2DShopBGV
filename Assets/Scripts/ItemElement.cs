@@ -11,7 +11,10 @@ public class ItemElement : MonoBehaviour
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI PriceText;
 
-
+    private void Start()
+    {
+        SetElement();
+    }
     public void SetElement()
     {
         Image.sprite = item.Sprite;
