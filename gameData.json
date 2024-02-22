@@ -1,13 +1,56 @@
 {
-  "playerName": "JohnDoe",
-  "playerBalance": 5000,
-  "itemsOwned": [
-    [1, 1],
-    [2, 5],
-    [3, 1]
+  "playerName":"Player",
+  "playerBalance":1000,
+  "itemsOwned":[
+     {
+        "Item1":3,
+        "Item2":7
+     },
+     {
+        "Item1":3,
+        "Item2":11
+     },
+     {
+        "Item1":3,
+        "Item2":10
+     },
+     {
+        "Item1":3,
+        "Item2":9
+     }
   ],
-  "itemsEquipped": [
-    [1, 2],
-    [3, 4]
+  "itemsEquipped":[
+     {
+        "Item1":1,
+        "Item2":13
+     },
+     {
+        "Item1":2,
+        "Item2":7
+     },
+     {
+        "Item1":3,
+        "Item2":20
+     },
+     {
+        "Item1":4,
+        "Item2":31
+     },
+     {
+        "Item1":5,
+        "Item2":41
+     },
+     {
+        "Item1":6,
+        "Item2":1
+     },
+     {
+        "Item1":7,
+        "Item2":51
+     },
+     {
+        "Item1":8,
+        "Item2":61
+     }
   ]
 }

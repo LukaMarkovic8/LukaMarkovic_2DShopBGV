@@ -20,6 +20,13 @@ public class UIController : MonoBehaviour
 
     [Header("Trade screen")]
     public GameObject TradeHolder;
+    public GameObject BuyHolder;
+    public GameObject SellHolder;
+
+    public Button OpenSellMenu;
+    public Button OpenBuyMenu;
+
+
 
 
     private void Start()
@@ -29,7 +36,7 @@ public class UIController : MonoBehaviour
     public void SetUI()
     {
         SetPlayerName(DataController.dataController.playerData.playerName);
-        SetPlayerBalance(DataController.dataController.playerData.playerBalance);
+        SetPlayerBalance();
     }
 
     public void SetPlayerName(string newName)
@@ -43,9 +50,9 @@ public class UIController : MonoBehaviour
         DataController.dataController.SetPlayerName(NameInputField.text);
     }
 
-    public void SetPlayerBalance(int newBalance)
+    public void SetPlayerBalance()
     {
-        PlayerBalance.text = "$ " + newBalance.ToString();
+        PlayerBalance.text = "$ " + DataController.dataController.playerData.playerBalance.ToString();
 
     }
 
@@ -65,6 +72,20 @@ public class UIController : MonoBehaviour
         ChangeNameHolder.SetActive(false);
         PopupHolder.SetActive(true);
         TradeHolder.SetActive(true);
+        BuyHolder.SetActive(true);
+        SellHolder.SetActive(false);
+
+    }
+
+    public void OpenSellTab()
+    {
+        BuyHolder.SetActive(false);
+        SellHolder.SetActive(true);
+    }
+    public void OpenBuyTab()
+    {
+        BuyHolder.SetActive(true);
+        SellHolder.SetActive(false);
 
     }
 

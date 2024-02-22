@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Playables;
+using Newtonsoft.Json;
 
 public enum ItemType
 {
@@ -31,10 +32,8 @@ public class DataController : MonoBehaviour
         public string playerName;
         public int playerBalance;
         //first int is type casted to int and second one is the ID unique to each item
-        public List<(int, int)> itemsOwned;
-        public List<(int, int)> itemsEquiped;
-
-        // Add other fields as needed
+        public List<(int, int)> itemsOwned = new List<(int, int)>();
+        public List<(int, int)> itemsEquipped;
     }
     private void Awake()
     {
@@ -43,32 +42,27 @@ public class DataController : MonoBehaviour
         filePath = Path.Combine(Application.persistentDataPath, "gameData.json");
         LoadFromJson();
     }
-    void Start()
-    {
-        //Initial data loading
-    }
-
-
+ 
     public void SetPlayerName(string playerName)
     {
         playerData.playerName = playerName;
         SaveToJson();
     }
 
-    public void SetPlayerBalance(int playerBalance)
+    public void SetPlayerBalance(int amount)
     {
-        playerData.playerBalance = playerBalance;
+        playerData.playerBalance += amount;
         SaveToJson();
     }
 
 
     public void UpdateEquipedItems(Item item)
     {
-        for (int i = 0; i < playerData.itemsEquiped.Count; i++)
+        for (int i = 0; i < playerData.itemsEquipped.Count; i++)
         {
-            if (playerData.itemsEquiped[i].Item1 == (int)item.Type)
+            if (playerData.itemsEquipped[i].Item1 == (int)item.Type)
             {
-                playerData.itemsEquiped[i] = ((int)item.Type, item.Id);
+                playerData.itemsEquipped[i] = ((int)item.Type, item.Id);
             }
         }
         SaveToJson();
@@ -76,6 +70,14 @@ public class DataController : MonoBehaviour
 
     public void AddToOwnedItems(Item item)
     {
+        if (playerData == null)
+        {
+            Debug.Log("sssssssssss");
+        }
+
+
+        Debug.Log(playerData.itemsOwned.Count);
+
         if (!playerData.itemsOwned.Contains(((int)item.Type, item.Id)))
         {
             playerData.itemsOwned.Add(((int)item.Type, item.Id));
@@ -83,14 +85,24 @@ public class DataController : MonoBehaviour
         SaveToJson();
     }
 
+    public void RemoveOwnedItem(Item item)
+    {
+        if (playerData.itemsOwned.Contains(((int)item.Type, item.Id)))
+        {
+            playerData.itemsOwned.Remove(((int)item.Type, item.Id));
+        }
+        SaveToJson();
+    }
+
     // Load data from JSON file
     public void LoadFromJson()
     {
+        Debug.Log(filePath);
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
             //Parsing
-            playerData = JsonUtility.FromJson<GameData>(json);
+            playerData = JsonConvert.DeserializeObject<GameData>(json);
         }
         else
         {
@@ -99,12 +111,12 @@ public class DataController : MonoBehaviour
     }
     // Save data to JSON file
 
-
+    [ContextMenu("Save")]
     public void SaveToJson()
     {
-        string json = JsonUtility.ToJson(playerData);
+        string json = JsonConvert.SerializeObject(playerData);
+        //string chet = "{\r\n  \"playerName\":\"Player\",\r\n  \"playerBalance\":1000,\r\n  \"itemsOwned\":[\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":7\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":11\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":10\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":9\r\n     }\r\n  ],\r\n  \"itemsEquipped\":[\r\n     {\r\n        \"Item1\":1,\r\n        \"Item2\":13\r\n     },\r\n     {\r\n        \"Item1\":2,\r\n        \"Item2\":7\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":20\r\n     },\r\n     {\r\n        \"Item1\":4,\r\n        \"Item2\":31\r\n     },\r\n     {\r\n        \"Item1\":5,\r\n        \"Item2\":41\r\n     },\r\n     {\r\n        \"Item1\":6,\r\n        \"Item2\":1\r\n     },\r\n     {\r\n        \"Item1\":7,\r\n        \"Item2\":51\r\n     },\r\n     {\r\n        \"Item1\":8,\r\n        \"Item2\":61\r\n     }\r\n  ]\r\n}";
         File.WriteAllText(filePath, json);
-        Debug.Log("Data saved to " + filePath);
     }
 
 }

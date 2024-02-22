@@ -11,15 +11,11 @@ public class Shopkeeper : MonoBehaviour
 
     private void Start()
     {
-
         animator.Play("Rogue_idle_01");
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         audioSourceFx.PlayOneShot(welcomeAudio);
-        Debug.Log("Player close");
     }
 }

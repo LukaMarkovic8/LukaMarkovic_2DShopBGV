@@ -6,21 +6,25 @@ using TMPro;
 
 public class ItemElement : MonoBehaviour
 {
+    public DisplayItem DisplayItem;
     public Item item;
     public Image Image;
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI PriceText;
 
-    private void Start()
+   
+    public void SetElement(Item item)
     {
-        SetElement();
-    }
-    public void SetElement()
-    {
+        this.item = item;
         Image.sprite = item.Sprite;
         NameText.text = item.Name;
         PriceText.text = item.Price.ToString();
     }
+   
+    public void ChooseItem()
+    {
+        DisplayItem.SetElement(item);
 
+    }
 
 }

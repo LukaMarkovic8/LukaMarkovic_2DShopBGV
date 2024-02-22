@@ -52,6 +52,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (DataController.dataController==null)
+        {
+            return;
+        }
         if (DataController.dataController.blockMoving) return;
 
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
