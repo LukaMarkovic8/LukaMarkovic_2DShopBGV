@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ClickDetection : MonoBehaviour
 {
+
+    public UIController UIController;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -27,6 +30,7 @@ public class ClickDetection : MonoBehaviour
                     {
                         // The click was on a Rigidbody GameObject with a Shopkeeper component
                         Debug.Log("Clicked on a Rigidbody with Shopkeeper component!");
+                        UIController.OpenTradeMenu();
                     }
                 }
             }

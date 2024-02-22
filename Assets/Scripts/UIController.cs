@@ -15,6 +15,8 @@ public class UIController : MonoBehaviour
 
     public GameObject PopupHolder;
 
+    public Button closeUI;
+
     [Header("Change Name")]
     public GameObject ChangeNameHolder;
     public TMP_InputField NameInputField;
@@ -54,7 +56,17 @@ public class UIController : MonoBehaviour
         ChangeNameHolder.SetActive(true);
     }
 
-    
+    public void OpenTradeMenu()
+    {
+        PopupHolder.SetActive(true);
+
+    }
+
+    public void CloseUI()
+    {
+        PopupHolder.SetActive(false);
+
+    }
 
 
 }

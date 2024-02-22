@@ -92,12 +92,7 @@ public class PlayerController : MonoBehaviour
 
     MoveDirection GetMoveDirection(Vector2 movement)
     {
-        //if (Mathf.Abs(movement.y) > Mathf.Abs(movement.x))
-        //{
-        //    return MoveDirection.vertical;
-
-        //}
-        //else
+        
         if (movement.x < 0f)
         {
             if (playerHolder.transform.localScale.x > 0)
