@@ -5,31 +5,34 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Playables;
 
-    public enum ItemType
-    {
-        None,
-        Head,
-        Face,
-        Torso,
-        Shoulders,
-        Hands,
-        Pelvis,
-        Legs,
-        Boots       
+public enum ItemType
+{
+    None,
+    Head,
+    Torso,
+    Shoulders,
+    Elbow,
+    Hands,
+    Pelvis,
+    Legs,
+    Boots
 
-    }
+}
 public class DataController : MonoBehaviour
 {
     private string filePath;
 
-   public static DataController dataController;
+    public static DataController dataController;
 
     public GameData playerData;
     public class GameData
     {
         public string playerName;
         public int playerBalance;
-        public List<(int,int)> itemsOwned;
+        //first int is type casted to int and second one is the ID unique to each item
+        public List<(int, int)> itemsOwned;
+        public List<(int, int)> itemsEquiped;
+
         // Add other fields as needed
     }
     private void Awake()
@@ -37,10 +40,11 @@ public class DataController : MonoBehaviour
         dataController = this;
         // Set file path
         filePath = Path.Combine(Application.persistentDataPath, "gameData.json");
+        LoadFromJson();
     }
     void Start()
     {
-        LoadFromJson();
+        //Initial data loading
     }
 
 
@@ -53,9 +57,30 @@ public class DataController : MonoBehaviour
     public void SetPlayerBalance(int playerBalance)
     {
         playerData.playerBalance = playerBalance;
+        SaveToJson();
     }
 
 
+    public void UpdateEquipedItems(Item item)
+    {
+        for (int i = 0; i < playerData.itemsEquiped.Count; i++)
+        {
+            if (playerData.itemsEquiped[i].Item1 == (int)item.Type)
+            {
+                playerData.itemsEquiped[i] = ((int)item.Type, item.Id);
+            }
+        }
+        SaveToJson();
+    }
+
+    public void AddToOwnedItems(Item item)
+    {
+        if (!playerData.itemsOwned.Contains(((int)item.Type, item.Id)))
+        {
+            playerData.itemsOwned.Add(((int)item.Type, item.Id));
+        }
+        SaveToJson();
+    }
 
     // Load data from JSON file
     public void LoadFromJson()
@@ -63,8 +88,8 @@ public class DataController : MonoBehaviour
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
+            //Parsing
             playerData = JsonUtility.FromJson<GameData>(json);
-            Debug.Log(playerData.playerBalance);
         }
         else
         {
@@ -72,9 +97,10 @@ public class DataController : MonoBehaviour
         }
     }
     // Save data to JSON file
+
+
     public void SaveToJson()
-    {           
-        playerData.playerBalance = 150 + UnityEngine.Random.RandomRange(1, 522);
+    {
         string json = JsonUtility.ToJson(playerData);
         File.WriteAllText(filePath, json);
         Debug.Log("Data saved to " + filePath);

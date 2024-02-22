@@ -1,5 +1,13 @@
 {
-  "playerName": "John Doe",
-  "playerBalance": 500,
-  "itemsOwned": [1]
+  "playerName": "JohnDoe",
+  "playerBalance": 5000,
+  "itemsOwned": [
+    [1, 1],
+    [2, 5],
+    [3, 1]
+  ],
+  "itemsEquipped": [
+    [1, 2],
+    [3, 4]
+  ]
 }

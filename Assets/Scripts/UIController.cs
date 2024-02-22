@@ -7,20 +7,20 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+
+    
     public TextMeshProUGUI PlayerName;
-    public Button openChangeNameBtn;
-
-
     public TextMeshProUGUI PlayerBalance;
-
     public GameObject PopupHolder;
-
     public Button closeUI;
-
     [Header("Change Name")]
     public GameObject ChangeNameHolder;
     public TMP_InputField NameInputField;
     public Button changeNameBtn;
+
+    [Header("Trade screen")]
+    public GameObject TradeHolder;
+
 
     private void Start()
     {
@@ -58,7 +58,9 @@ public class UIController : MonoBehaviour
 
     public void OpenTradeMenu()
     {
+        ChangeNameHolder.SetActive(false);
         PopupHolder.SetActive(true);
+        TradeHolder.SetActive(true);
 
     }
 

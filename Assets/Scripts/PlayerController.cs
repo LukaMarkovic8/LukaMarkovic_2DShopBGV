@@ -48,27 +48,15 @@ public class PlayerController : MonoBehaviour
     {
         movement.x = Input.GetAxis("Horizontal") * moveSpeed;
         movement.y = Input.GetAxis("Vertical") * moveSpeed;
-
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-
-            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-
-
-    }
+    }   
 
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         moveDirection = GetMoveDirection(movement);
-
-
-
         if (IsMoving())
         {
             walkingAudio.enabled = true;
-
             AnimatorClipInfo[] animatorinfo = animator.GetCurrentAnimatorClipInfo(0);
             string current_animation = animatorinfo[0].clip.name;
             if (current_animation != "Rogue_walk_01")
@@ -84,7 +72,6 @@ public class PlayerController : MonoBehaviour
             {
                 animator.Play("Rogue_idle_01");
             }
-
             walkingAudio.enabled = false;
         }
     }
@@ -92,16 +79,12 @@ public class PlayerController : MonoBehaviour
 
     MoveDirection GetMoveDirection(Vector2 movement)
     {
-        
         if (movement.x < 0f)
         {
             if (playerHolder.transform.localScale.x > 0)
             {
                 playerHolder.transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
-
             }
-
-
             return MoveDirection.left;
         }
         else if (movement.x > 0f)
@@ -111,16 +94,54 @@ public class PlayerController : MonoBehaviour
                 playerHolder.transform.localScale = new Vector3(0.4f, 0.4f, 1f);
             }
             return MoveDirection.right;
-
         }
         return MoveDirection.none;
-
     }
-
-
     bool IsMoving()
     {
         // Check if velocity is greater than a small threshold
         return movement.magnitude > 0.001f;
     }
+
+
+    //Method that equips item on player and sends new item do Data controlled to save it
+    public void EquipItem(Item item)
+    {
+        switch (item.Type)
+        {
+            case ItemType.Head:
+                HeadSprite.sprite = item.Sprite;
+                break;
+            case ItemType.Shoulders:
+                LeftShoulderSprite.sprite = item.SpriteL;
+                RightShoulderSprite.sprite = item.SpriteR;
+                break;
+            case ItemType.Elbow:
+                LeftElbowSptrie.sprite = item.SpriteL;
+                RightElbowSptrie.sprite = item.SpriteR;
+                break;
+            case ItemType.Hands:
+                LeftWristSprite.sprite = item.SpriteL;
+                RightWristSprite.sprite = item.SpriteR;
+                break;
+            case ItemType.Torso:
+                TorsoSprite.sprite = item.Sprite;
+                break;
+            case ItemType.Pelvis:
+                PelvisSprite.sprite = item.Sprite;
+                break;
+            case ItemType.Legs:
+                LeftLegSprite.sprite = item.SpriteL;
+                RightLegSprite.sprite = item.SpriteR;
+                break;
+            case ItemType.Boots:
+                LeftBootSprite.sprite = item.SpriteL;
+                RightBootSprite.sprite = item.SpriteR;
+                break;
+        }
+        //Update Data
+        DataController.dataController.UpdateEquipedItems(item);
+
+    }
+
 }
