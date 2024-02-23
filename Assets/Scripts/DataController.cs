@@ -72,6 +72,22 @@ public class DataController : MonoBehaviour
         return itemIds;
     }
 
+    public List<int> GetOwnedItemsByCategory(ItemType type)
+    {
+        List<int> items = new List<int>();
+
+        foreach (var item in playerData.itemsOwned)
+        {
+            if (item.Item1 == (int)type)
+            {
+
+                items.Add(item.Item2);
+
+            }
+        }
+        return items;
+    }
+
     public void UpdateEquipedItems(Item item)
     {
         for (int i = 0; i < playerData.itemsEquipped.Count; i++)

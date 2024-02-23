@@ -8,10 +8,12 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
 
-    
+
     public TextMeshProUGUI PlayerName;
     public TextMeshProUGUI PlayerBalance;
     public GameObject PopupHolder;
+    public GameObject CustomizationHolder;
+
     public Button closeUI;
     [Header("Change Name")]
     public GameObject ChangeNameHolder;
@@ -24,6 +26,7 @@ public class UIController : MonoBehaviour
 
     public Button OpenSellMenu;
     public Button OpenBuyMenu;
+    public Button OpenCustomizationButton;
 
 
 
@@ -54,14 +57,22 @@ public class UIController : MonoBehaviour
         PlayerBalance.text = "$ " + DataController.dataController.playerData.playerBalance.ToString();
 
     }
-
-
     public void OpenChangeNamePopup()
     {
         DataController.dataController.blockMoving = true;
 
         PopupHolder.SetActive(true);
         ChangeNameHolder.SetActive(true);
+    }
+
+    public void OpenCustomization()
+    {
+        DataController.dataController.blockMoving = true;
+
+        PopupHolder.SetActive(true);
+        CustomizationHolder.SetActive(true);
+        ChangeNameHolder.SetActive(false);
+        TradeHolder.SetActive(false);
     }
 
     public void OpenTradeMenu()

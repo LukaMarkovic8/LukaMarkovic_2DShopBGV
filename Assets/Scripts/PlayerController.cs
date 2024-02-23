@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
         left,
         right
     }
+    public TradeManager TradeManager;
 
     public Rigidbody2D rb;
 
@@ -42,17 +43,22 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer LeftBootSprite;
 
 
+    private void Start()
+    {
+        StartCoroutine(SetupC());
+    }
+
 
 
     void Update()
     {
         movement.x = Input.GetAxis("Horizontal") * moveSpeed;
         movement.y = Input.GetAxis("Vertical") * moveSpeed;
-    }   
+    }
 
     private void FixedUpdate()
     {
-        if (DataController.dataController==null)
+        if (DataController.dataController == null)
         {
             return;
         }
@@ -109,6 +115,29 @@ public class PlayerController : MonoBehaviour
         return movement.magnitude > 0.001f;
     }
 
+    IEnumerator SetupC()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        List<Item> items = new List<Item>();
+        foreach (var item in DataController.dataController.playerData.itemsEquipped)
+        {
+            List<Item> groupItems = TradeManager.GetCategotyItems((ItemType)item.Item1);
+            foreach (var groupItem in groupItems)
+            {
+                if (item.Item2 == groupItem.Id)
+                {
+                    items.Add(groupItem);
+                }
+            }
+        }
+
+        foreach (var item in items)
+        {
+                    EquipItem(item);
+            yield return new WaitForEndOfFrame();
+
+        }
+    }
 
     //Method that equips item on player and sends new item do Data controlled to save it
     public void EquipItem(Item item)
@@ -147,7 +176,6 @@ public class PlayerController : MonoBehaviour
         }
         //Update Data
         DataController.dataController.UpdateEquipedItems(item);
-
     }
 
 }

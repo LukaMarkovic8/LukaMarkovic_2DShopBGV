@@ -164,7 +164,7 @@ public class TradeManager : MonoBehaviour
     }
     private void SetBuyItems()
     {
-        List<Item> items = GetCategotyItems();
+        List<Item> items = GetCategotyItems(itemsCategory);
 
         for (int i = 0; i < DisplayItems.Count; i++)
         {
@@ -185,7 +185,7 @@ public class TradeManager : MonoBehaviour
     {
         List<int> items = DataController.dataController.GetItemsForSaleByCategory(itemsCategory);
 
-        List<Item> allItems = GetCategotyItems();
+        List<Item> allItems = GetCategotyItems(itemsCategory);
 
 
         if (items.Count == 0)
@@ -214,7 +214,7 @@ public class TradeManager : MonoBehaviour
     }
 
     //Getting the item list for relevant category
-    private List<Item> GetCategotyItems()
+    public List<Item> GetCategotyItems(ItemType itemsCategory)
     {
         switch (itemsCategory)
         {
