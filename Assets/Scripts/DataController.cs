@@ -63,7 +63,6 @@ public class DataController : MonoBehaviour
         {
             if (item.Item1 == (int)type)
             {
-
                 if (!playerData.itemsEquipped.Contains(item))
                 {
                     itemIds.Add(item.Item2);
@@ -121,12 +120,17 @@ public class DataController : MonoBehaviour
     }
     // Save data to JSON file
 
-    [ContextMenu("Save")]
     public void SaveToJson()
     {
         string json = JsonConvert.SerializeObject(playerData);
-        //string chet = "{\r\n  \"playerName\":\"Player\",\r\n  \"playerBalance\":1000,\r\n  \"itemsOwned\":[\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":7\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":11\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":10\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":9\r\n     }\r\n  ],\r\n  \"itemsEquipped\":[\r\n     {\r\n        \"Item1\":1,\r\n        \"Item2\":13\r\n     },\r\n     {\r\n        \"Item1\":2,\r\n        \"Item2\":7\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":20\r\n     },\r\n     {\r\n        \"Item1\":4,\r\n        \"Item2\":31\r\n     },\r\n     {\r\n        \"Item1\":5,\r\n        \"Item2\":41\r\n     },\r\n     {\r\n        \"Item1\":6,\r\n        \"Item2\":1\r\n     },\r\n     {\r\n        \"Item1\":7,\r\n        \"Item2\":51\r\n     },\r\n     {\r\n        \"Item1\":8,\r\n        \"Item2\":61\r\n     }\r\n  ]\r\n}";
         File.WriteAllText(filePath, json);
+    }
+
+    [ContextMenu("ResetData")]
+    public void ResetData()
+    {
+        string cheat = "{\r\n  \"playerName\":\"Player\",\r\n  \"playerBalance\":1000,\r\n  \"itemsOwned\":[\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":7\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":11\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":10\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":9\r\n     }\r\n  ],\r\n  \"itemsEquipped\":[\r\n     {\r\n        \"Item1\":1,\r\n        \"Item2\":13\r\n     },\r\n     {\r\n        \"Item1\":2,\r\n        \"Item2\":7\r\n     },\r\n     {\r\n        \"Item1\":3,\r\n        \"Item2\":20\r\n     },\r\n     {\r\n        \"Item1\":4,\r\n        \"Item2\":31\r\n     },\r\n     {\r\n        \"Item1\":5,\r\n        \"Item2\":41\r\n     },\r\n     {\r\n        \"Item1\":6,\r\n        \"Item2\":1\r\n     },\r\n     {\r\n        \"Item1\":7,\r\n        \"Item2\":51\r\n     },\r\n     {\r\n        \"Item1\":8,\r\n        \"Item2\":61\r\n     }\r\n  ]\r\n}";
+        File.WriteAllText(filePath, cheat);
     }
 
 }

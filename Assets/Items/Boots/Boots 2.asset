@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 62
   Name: Boots 2
-  Type: 9
+  Type: 8
   isDouble: 1
   Sprite: {fileID: 21300000, guid: 2932647fff9189e40a62a25143f3f534, type: 3}
   SpriteL: {fileID: 21300000, guid: 2932647fff9189e40a62a25143f3f534, type: 3}

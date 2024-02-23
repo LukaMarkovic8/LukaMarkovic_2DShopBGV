@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 51
   Name: Legs 1
-  Type: 8
+  Type: 7
   isDouble: 1
   Sprite: {fileID: 21300000, guid: 40e550cd3b539f14eb98d42b6769b592, type: 3}
   SpriteL: {fileID: 21300000, guid: 40e550cd3b539f14eb98d42b6769b592, type: 3}

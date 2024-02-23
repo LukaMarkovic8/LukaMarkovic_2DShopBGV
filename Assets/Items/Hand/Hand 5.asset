@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 45
   Name: Hand 5
-  Type: 6
+  Type: 5
   isDouble: 1
   Sprite: {fileID: 21300000, guid: 767ae73862a0c7c418959a63daafaae9, type: 3}
   SpriteL: {fileID: 21300000, guid: 767ae73862a0c7c418959a63daafaae9, type: 3}

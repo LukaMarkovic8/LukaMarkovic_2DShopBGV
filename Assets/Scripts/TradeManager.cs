@@ -77,10 +77,11 @@ public class TradeManager : MonoBehaviour
         itemsCategory = ItemType.Torso;
         currentScreen = TradeScreenType.Sell;
         SellButtonGo.SetActive(true);
-        BuyButtonGo.SetActive(true);
+        BuyButtonGo.SetActive(false);
         DisplayItemUI.SetEmpty();
         OpenSellScreenButton.gameObject.SetActive(false);
         OpenBuyScreenButton.gameObject.SetActive(true);
+        warningText.gameObject.SetActive (false);
         SetSellItems();
 
 
@@ -126,9 +127,11 @@ public class TradeManager : MonoBehaviour
         //handeling data
         DataController.dataController.SetPlayerBalance(DisplayItemUI.item.Price);
         DataController.dataController.RemoveOwnedItem(DisplayItemUI.item);
-
+        SellButtonGo.SetActive(false);
+        DisplayItemUI.SetEmpty();
         audioSource.PlayOneShot(SellClip);
         UIController.SetPlayerBalance();
+        SetSellItems();
 
     }
     public void BuyItems()
@@ -149,7 +152,15 @@ public class TradeManager : MonoBehaviour
     public void SetCategory(int type)
     {
         itemsCategory = (ItemType)type;
-        SetBuyItems();
+        if (currentScreen == TradeScreenType.Buy)
+        {
+
+            SetBuyItems();
+        }
+        else
+        {
+            SetSellItems();
+        }
     }
     private void SetBuyItems()
     {
@@ -172,13 +183,21 @@ public class TradeManager : MonoBehaviour
 
     private void SetSellItems()
     {
-        List<int> items = DataController.dataController.GetItemsForSaleByCategory(DisplayItemUI.item.Type);
+        List<int> items = DataController.dataController.GetItemsForSaleByCategory(itemsCategory);
 
         List<Item> allItems = GetCategotyItems();
 
 
-
-
+        if (items.Count == 0)
+        {
+            for (int i = 0; i < DisplayItems.Count; i++)
+            {
+                DisplayItems[i].gameObject.SetActive(false);
+            }
+            SellButtonGo.SetActive(false);
+            return;
+        }
+        SellButtonGo.SetActive(true);
         for (int i = 0; i < DisplayItems.Count; i++)
         {
             if (items.Contains(allItems[i].Id))

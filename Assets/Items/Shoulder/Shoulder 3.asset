@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 22
   Name: Shoulder Pad 3
-  Type: 4
+  Type: 3
   isDouble: 1
   Sprite: {fileID: 21300000, guid: 805906b1206aa944b99385aa2c600d2f, type: 3}
   SpriteL: {fileID: 21300000, guid: 805906b1206aa944b99385aa2c600d2f, type: 3}

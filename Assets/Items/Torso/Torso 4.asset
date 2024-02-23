@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 10
   Name: Torso 4
-  Type: 3
+  Type: 2
+  isDouble: 0
   Sprite: {fileID: 21300000, guid: 3d9056df586b6024fbc5b9fee2433eef, type: 3}
+  SpriteL: {fileID: 0}
+  SpriteR: {fileID: 0}
   Price: 150
